@@ -1,0 +1,7 @@
+bots:
+  - name: 问答助手
+    dingtalk_app_client_id: <your-dingtalk-app-client-id>
+    dingtalk_app_client_secret: <your-dingtalk-app-client-secret>
+    dify_app_type: <chatbot or completion or workflow>
+    dify_app_api_key: <your-dify-api-key-per-app>
+    handler: DifyAiCardBotHandler

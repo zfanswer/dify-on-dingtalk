@@ -1,0 +1,10 @@
+services:
+  dod-app:
+    image: dify-on-dingtalk:latest
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./.bots.yaml:/app/.bots.yaml

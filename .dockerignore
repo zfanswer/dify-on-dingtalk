@@ -1,0 +1,10 @@
+tests/
+tests/*.*
+!tests/.coveragerc
+docs/
+docker/
+.aliyun/
+venv/
+.env
+.bots.yaml
+.git/
