@@ -1,6 +1,6 @@
 services:
   dod-app:
-    image: dify-on-dingtalk:latest
+    image: zfanswer/dify-on-dingtalk:latest
     build:
       context: ../
       dockerfile: Dockerfile
