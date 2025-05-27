@@ -17,19 +17,17 @@ class Cache:
         self.cache[key] = (value, time.time())
 
     def get(self, key):
-        if key in self.cache:
+        item = self.cache.get(key)
+        if item:
             if not self._is_expired(key):
-                return self.cache[key][0]  # 返回值
+                return item[0]  # 返回值
             else:
                 del self.cache[key]  # 如果过期，删除该key
         return None
 
     def cleanup(self):
         # 清除过期的缓存
-        keys_to_delete = []
-        for key in list(self.cache):
-            if self._is_expired(key):
-                keys_to_delete.append(key)
+        keys_to_delete = [key for key in list(self.cache) if self._is_expired(key)]
         for key in keys_to_delete:
             del self.cache[key]
 
