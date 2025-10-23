@@ -28,11 +28,22 @@ class DifyAiCardBotHandler(ChatbotHandler):
     def __init__(self, dify_api_client: DifyClient):
         super().__init__()
         self.dify_api_client = dify_api_client
-        self.cache = Cache(expiry_time=60 * int(os.getenv("DIFY_CONVERSATION_REMAIN_TIME")))  # 每个用户维持会话时间xx秒
+        remain_time = os.getenv("DIFY_CONVERSATION_REMAIN_TIME", "60")
+        self.cache = Cache(expiry_time=60 * int(remain_time))  # 每个用户维持会话时间60*xx秒
+        self.message_cache = Cache(expiry_time=300)  # 5分钟内去重
 
     async def process(self, callback_msg: CallbackMessage):
         logger.debug(callback_msg)
         incoming_message = ChatbotMessage.from_dict(callback_msg.data)
+        message_id = incoming_message.message_id
+        
+        # 检查消息是否已处理
+        if self.message_cache.get(message_id):
+            logger.info(f"重复消息已忽略: {message_id}")
+            return AckMessage.STATUS_OK, "OK"
+            
+        # 标记消息已处理
+        self.message_cache.set(message_id, True)
 
         logger.info(f"收到用户消息：{incoming_message}")
 
